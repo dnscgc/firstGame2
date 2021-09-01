@@ -1,0 +1,73 @@
+body{
+    background: #fff;
+    color: #333;
+    font-family: Lato, sans-serif;
+}
+
+header{
+
+    background: rgb(228, 226, 215);
+    height: 75px;
+    width: 504px;
+    margin: 0%;
+    text-align: left;
+    line-height: 5px;
+}
+
+div {
+    margin-top: 20px;
+    margin-right: 10px;
+    float: right;
+    
+}
+
+canvas{
+    
+    width: 500px;
+    height: 500px;
+    border-style: solid;
+    border-color: coral;
+    border-width: 2px;
+    background-color: pink;
+ 
+}
+
+ input[type="text"] {
+    margin-left: 5px;
+    margin-top: 20px;
+    font-size: 15px;
+    height: 12px;
+    padding: 5px;
+    border: 1px solid coral;
+    background: #fff;
+    border-radius: 3px;
+    font-family: Lato, sans-serif;
+    color: black;
+    width: 85px;
+} 
+
+button {
+    margin-left: 5px;
+    background: none;
+    border-radius: 3px;
+    border-color: black;
+    color: coral;
+    font-size: 15px;
+    width: 85px;
+    font-family: Lato, sans-serif;
+    cursor: pointer;
+}
+
+button:hover {
+    color: rgb(96, 85, 79);
+}
+
+label {
+    color: coral;
+    font-size: 15px;
+    font-family: Lato, sans-serif;
+    float: left;
+    padding-left: 20px;
+    text-indent: -20px;
+  }
+
