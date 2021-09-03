@@ -8,6 +8,7 @@ var tileMap;
 var sonido1;
 var sonido2;
 var sonido3;
+var backMusic;
 
 sonido1 = new Howl({
   src: ["sound/efecto1.wav"],
@@ -17,7 +18,7 @@ sonido1 = new Howl({
 sonido2 = new Howl({
   src: ["sound/efecto2.wav"],
   loop: false,
-  volume: 0.025
+  volume: 0.025,
 });
 
 sonido3 = new Howl({
@@ -25,6 +26,11 @@ sonido3 = new Howl({
   loop: false,
 });
 
+backMusic = new Howl({
+  src:["music/01.mp3"],
+  loop: true,
+  volume: 0.5,
+})
 
 var length = 25;
 var width = 25;
@@ -393,6 +399,8 @@ function principal() {
 }
 
 function inicializa() {
+
+  backMusic.play();
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
 
