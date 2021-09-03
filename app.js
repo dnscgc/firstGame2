@@ -400,7 +400,7 @@ function principal() {
 
 function inicializa() {
 
-  backMusic.play();
+  
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
 
@@ -412,6 +412,8 @@ function inicializa() {
   
    
   console.log("inicializo");
+
+  backMusic.play();
   
 
   setInterval(function(){
