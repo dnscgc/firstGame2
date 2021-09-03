@@ -1,8 +1,30 @@
+//const { Howl } = require("./howler.core");
+
 var canvas;
 var ctx;
 var FPS = 20;
 var imgDoor;
 var tileMap;
+var sonido1;
+var sonido2;
+var sonido3;
+
+sonido1 = new Howl({
+  src: ["sound/efecto1.wav"],
+  loop: false,
+});
+
+sonido2 = new Howl({
+  src: ["sound/efecto2.wav"],
+  loop: false,
+  volume: 0.025
+});
+
+sonido3 = new Howl({
+  src: ["sound/efecto3.wav"],
+  loop: false,
+});
+
 
 var length = 25;
 var width = 25;
@@ -158,6 +180,8 @@ function Player() {
       if (object == 3) {
         this.key ++;
 
+        sonido3.play();
+
         console.log("keys"+this.key);
         console.log("posicio" + stage[this.y][this.x]);
 
@@ -208,6 +232,8 @@ function Player() {
     this.enemyCrash = function(x,y){
 
       if(this.x == x && this.y == y ){
+
+        sonido1.play();
         console.log ( "moriste pajuo");
 
         alert(this.name + " has muerto!... Intenta de nuevo :D");
@@ -317,16 +343,45 @@ function Enemy (x, y){
   };
  };
 
+//  var ObjCamara = function(X, Y, dimX, dimY, posx, posy){
+
+//   this.X = X;
+//   this.Y = Y;
+//   this.dimX = dimX;
+//   this.dimY = dimY;
+
+//   this.draw = function () {
+
+//     for (y = this.Y; y < (this.Y + this.dimY); y++) {
+
+//       for (x = this.X; x < (this.X + this.dimX); x++) {
+
+//         var tile = stage[y][x]
+//         ctx.drawImage(tileMap,tile*32, 0, 32,32,(x-X)*width,(y-Y)*length,width, length );
+  
+//       };
+//     };
+//   };
+
+//   this.move = function(){
+
+
+//   }
+
+//  };
+
 
  
 function principal() {
 
   cleanCanvas();
+  //camara.draw()
   drawStage();
   player1.draw();
   secretDoor2.draw();
   secretDoor1.draw();
   exitDoor.draw();
+ 
 
   for (c=0; c < enemy.length; c++){
     enemy[c].move();
@@ -345,6 +400,8 @@ function inicializa() {
   imgDoor.src = "imagenes/tilemap2.png";
   tileMap = new Image();
   tileMap.src = "imagenes/tilemap2.png";
+  
+  
    
   console.log("inicializo");
   
@@ -368,6 +425,8 @@ var secretDoor1= new Door(4, 150, 325);
 var secretDoor2= new Door(4, 400, 75);
 var exitDoor= new Door(3, 450, 225);
 
+//var camara = new ObjCamara(2,2,10,10);
+
 
 //if (player1.name != undefined){
 document.addEventListener("keydown", function (tecla) {
@@ -378,18 +437,22 @@ document.addEventListener("keydown", function (tecla) {
           case "Down":
           case "ArrowDown":
             player1.moveDown();
+            sonido2.play();
             break;
           case "Up":
           case "ArrowUp":
             player1.moveUp();
+            sonido2.play();
             break;
           case "Left":
           case "ArrowLeft":
             player1.moveLeft();
+            sonido2.play();
             break;
           case "Right":
           case "ArrowRight":
             player1.moveRight();
+            sonido2.play();
             break;
           default:
             return;
