@@ -8,7 +8,7 @@ var tileMap;
 var sonido1;
 var sonido2;
 var sonido3;
-var backMusic;
+//var backMusic;
 
 sonido1 = new Howl({
   src: ["sound/efecto1.wav"],
@@ -18,7 +18,7 @@ sonido1 = new Howl({
 sonido2 = new Howl({
   src: ["sound/efecto2.wav"],
   loop: false,
-  volume: 0.025,
+  volume: 0.0,
 });
 
 sonido3 = new Howl({
@@ -26,11 +26,11 @@ sonido3 = new Howl({
   loop: false,
 });
 
-backMusic = new Howl({
-  src:["music/01.mp3"],
-  loop: true,
-  volume: 0.5,
-})
+// backMusic = new Howl({
+//   src:["music/01.mp3"],
+//   loop: true,
+//   volume: 0.5,
+// })
 
 var length = 25;
 var width = 25;
@@ -110,6 +110,42 @@ function Player() {
   this.steps = 0;
   this.name = undefined;
   this.bScore = 1000;
+
+  this.toSaveGame =function (){
+    var coordenadas = [];
+    coordenadas.push(this.x);
+    coordenadas.push(this.y);
+    coordenadas.push(this.sDoor);
+    coordenadas.push(secretDoor1.visible);
+    coordenadas.push(secretDoor2.visible);
+    coordenadas.push(this.eDoor);
+    coordenadas.push(exitDoor.visible);
+    coordenadas.push(this.steps);
+    coordenadas.push(this.key);
+    //valores de key en el tablero
+    coordenadas.push(stage[18][1]);
+    coordenadas.push(stage[1][18]);
+    coordenadas.push(stage[18][18]);
+    
+    return (coordenadas);
+
+  };
+
+  this.toSetGame = function(x,y,sd, v1, v2, ed, v3, st,key, k1, k2, k3){
+    this.x = x;
+    this.y = y;
+    this.sDoor = sd ;
+    secretDoor1.visible = v1;
+    secretDoor2.visible = v2;
+    this.eDoor = ed;
+    exitDoor.visible = v3;
+    this.steps = st;
+    this.key = key;
+    stage[18][1] = k1;
+    stage[1][18] = k2;
+    stage[18][18] = k3;
+
+  };
 
   this.draw = function () {
 
@@ -195,9 +231,10 @@ function Player() {
 
         console.log("posicion" + stage[this.y][this.x]);
 
+      
         this.sDoor = true;
-
         console.log("puerta secreta activa?" + this.sDoor);
+        
 
         if(this.key == 3){
           this.eDoor = true;
@@ -206,7 +243,7 @@ function Player() {
           console.log("puerta de salida visible:" + exitDoor.visible)
         }
         else {console.log("faltan llaves")}
-     }
+     };
       
       if (object == 4 && this.sDoor == true) {
 
@@ -377,6 +414,48 @@ function Enemy (x, y){
 //  };
 
 
+
+function saveGame(){
+  var coordP = [];
+  coordP = player1.toSaveGame();
+
+  localStorage.setItem("x", coordP[0]);
+  localStorage.setItem("y", coordP[1]);
+  localStorage.setItem("sd", coordP[2]);
+  localStorage.setItem("v1", coordP[3]);
+  localStorage.setItem("v2", coordP[4]);
+  localStorage.setItem("ed", coordP[5]);
+  localStorage.setItem("v3", coordP[6]);
+
+  localStorage.setItem("st", coordP[7]);
+  localStorage.setItem("key", coordP[8]);
+  localStorage.setItem("k1", coordP[9]);
+  localStorage.setItem("k2", coordP[10]);
+  localStorage.setItem("k3", coordP[11]);
+  
+  console.log("guardada partida");
+
+};
+
+function setGame(){
+  
+  var x = parseInt(localStorage.getItem("x"));
+  var y = parseInt(localStorage.getItem("y"));
+  var sd = JSON.parse(localStorage.getItem("sd"));
+  var v1 = JSON.parse(localStorage.getItem("v1"));
+  var v2 = JSON.parse(localStorage.getItem("v2"));
+  var ed = JSON.parse(localStorage.getItem("ed"));
+  var v3 = JSON.parse(localStorage.getItem("v3"));
+  var st = parseInt(localStorage.getItem("st"));
+  var key = parseInt(localStorage.getItem("key"));
+  var k1 = parseInt(localStorage.getItem("k1"));
+  var k2 = parseInt(localStorage.getItem("k2"));
+  var k3 = parseInt(localStorage.getItem("k3"));
+
+  player1.toSetGame(x, y, sd, v1, v2, ed, v3, st, key, k1, k2, k3);
+  console.log( x + "-" + y + "-" + sd + "-" + v1 + "-" + v2 + "-" + ed + "-" + v3 + "-" + st + "-" + key + "-" + k1 + "-" + k2 + "-" + k3);
+
+};
  
 function principal() {
 
@@ -396,7 +475,7 @@ function principal() {
 
   // displayScores()
   
-}
+};
 
 function inicializa() {
 
@@ -408,12 +487,9 @@ function inicializa() {
   imgDoor.src = "imagenes/tilemap2.png";
   tileMap = new Image();
   tileMap.src = "imagenes/tilemap2.png";
-  
-  
-   
   console.log("inicializo");
 
-  backMusic.play();
+ 
   
 
   setInterval(function(){
@@ -422,7 +498,9 @@ function inicializa() {
 
 
   },1000/FPS)
-}
+};
+
+//backMusic.play();
 
 var player1 = new Player();
 
@@ -464,6 +542,21 @@ document.addEventListener("keydown", function (tecla) {
             player1.moveRight();
             sonido2.play();
             break;
+          case "g":
+            //guardar jugada
+            saveGame();
+            console.log("se guarda partida");
+            break;
+          case "b":
+            //borrar jugada
+            console.log("se borra partida");
+            break;
+          case "c":
+            //cargar jugada
+            setGame();
+            console.log("se carga partida");
+            break;
+        
           default:
             return;
         };
